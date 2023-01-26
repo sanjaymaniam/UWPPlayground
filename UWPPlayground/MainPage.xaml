@@ -1,0 +1,28 @@
+﻿<Page
+    x:Class="UWPPlayground.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:UWPPlayground"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:devTools="using:Microsoft.Toolkit.Uwp.DeveloperTools"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid VerticalAlignment="Center" HorizontalAlignment="Center" Width="1200" Height="900">
+
+        <Button x:Name="OpenPopupBtn" Content="Open Popup" Click="OpenPopupBtn_Click" HorizontalAlignment="Left" VerticalAlignment="Bottom">
+            <Button.Resources>
+                
+            </Button.Resources>
+        </Button>
+
+        <Popup x:Name="TestPopup" IsOpen="False" IsLightDismissEnabled="True" KeyDown="TestPopup_KeyDown" MaxHeight="80" MaxWidth="500">
+            <Grid Width="500" Height="80" Background="Gray">
+                <TextBox x:Name="TestTb" Height="30"  Width="300" KeyDown="TestTb_KeyDown"/>
+            </Grid>
+        </Popup>
+        <!--<devTools:FocusTracker HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0 200 0 0"/>-->
+
+    </Grid>
+</Page>
