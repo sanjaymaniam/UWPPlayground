@@ -59,8 +59,9 @@ namespace UWPPlayground.Extensions
                     switch (side)
                     {
                         case Side.Left:
-                            // Calculate offset accounting for the popup's final position and check if the popup will be within window bounds.
+                            // Calculates the horizontal offset needed to position the popup completely to the left side of the target element.
                             var horizontalOffset = distanceX - popup.MaxWidth - margin;
+                            // If the calculated offset positions popup within window boundaries, set the horizontal offset and align popup vertically.
                             if (popupCoords.X + horizontalOffset >= 0)
                             {
                                 popup.HorizontalOffset = horizontalOffset;
@@ -100,7 +101,9 @@ namespace UWPPlayground.Extensions
                             continue;
 
                         case Side.Top:
+                            // Calculates the vertical offset needed to position the popup completely above of the target element.
                             var verticalOffset = distanceY - popup.MaxHeight - margin;
+                            // If the calculated offset positions popup within window boundaries, set the vertical offset and align popup horizontally.
                             if (popupCoords.Y + verticalOffset >= 0)
                             {
                                 popup.VerticalOffset = verticalOffset;
