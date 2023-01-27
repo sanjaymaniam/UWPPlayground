@@ -29,7 +29,8 @@ namespace UWPPlayground.Extensions
         /// </param>
         /// <param name="preferenceOrder">
         /// Represents the preferred order of <see cref="Side"/> to position popup. 
-        /// For eg: If preferenceOrder is { Side.Left, Side.Right }, extension will try to position the popup to left of <paramref name="targetElement"/> and right it that fails.
+        /// For eg: If preferenceOrder is { Side.Left, Side.Right }, extension will first try to position the popup to left 
+        /// of <paramref name="targetElement"/> and if that's not possible, it tries to position popup to the right.
         /// </param>
         /// <returns>
         /// True when popup has been positioned in any of the sides in <paramref name="preferenceOrder"/>. False otherwise.
