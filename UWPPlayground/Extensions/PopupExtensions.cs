@@ -478,15 +478,9 @@ namespace UWPPlayground.Extensions
 							if (popupCoords.X + horizontalOffset >= 0)
 							{
 								popup.HorizontalOffset = horizontalOffset;
-								if (!verticalOffsetForAlignment.HasValue) // ???
+								if (!verticalOffsetForAlignment.HasValue)
 								{
-									verticalOffsetForAlignment = GetOffsetForAlignment(popupCoords.Y,
-																					   targetElementCoords.Y,
-																					   distanceY,
-																					   popup.MaxHeight,
-																					   targetElement.ActualHeight,
-																					   windowBounds.Height,
-																					   isOverflowAllowed);
+									verticalOffsetForAlignment = GetOffsetForAlignment(popupCoords.Y, targetElementCoords.Y, distanceY, popup.MaxHeight, targetElement.ActualHeight, windowBounds.Height, isOverflowAllowed);
 									if (verticalOffsetForAlignment == null)
 									{
 										return false;
