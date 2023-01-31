@@ -186,14 +186,13 @@ namespace UWPPlayground.Extensions
 		/// <param name="targetElementDimension"></param>
 		/// <param name="windowDimension"></param>
 		/// <returns></returns>
-		private static double? GetOffsetForAlignment(
-								double popupCoord,
-								double targetElementCoord,
-								double distance,
-								double popupMaxDimension,
-								double targetElementDimension,
-								double windowDimension,
-								bool isOverflowAllowed = false)
+		private static double? GetOffsetForAlignment(double popupCoord, 
+													 double targetElementCoord, 
+													 double distance, 
+													 double popupMaxDimension, 
+													 double targetElementDimension, 
+													 double windowDimension, 
+													 bool isOverflowAllowed = false)
 		{
 			// Calculates the offset needed to align the center of the popup with the center of the target element.
 			double offsetForCenterAlignment = distance - (popupMaxDimension - targetElementDimension) / 2;
