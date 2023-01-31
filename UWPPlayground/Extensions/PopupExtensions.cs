@@ -10,9 +10,9 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPPlayground.Extensions
 {
-    public enum Side { Left, Top, Right, Bottom }
+	public enum Side { Left, Top, Right, Bottom }
 
-public enum Side { Left, Top, Right, Bottom };
+	public enum Side { Left, Top, Right, Bottom };
 
 	public static class PreferenceOrders
 	{
@@ -218,4 +218,5 @@ public enum Side { Left, Top, Right, Bottom };
 			}
 			return null;
 		}
-	}}
+	}
+}
