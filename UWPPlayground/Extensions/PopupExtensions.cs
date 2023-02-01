@@ -16,6 +16,7 @@ namespace UWPPlayground.Extensions
     {
         public static Side[] TopBottomLeft = new Side[] { Side.Top, Side.Bottom, Side.Left };
         public static Side[] TopBottomLeftRight = new Side[] { Side.Top, Side.Bottom, Side.Left, Side.Right };
+        public static Side[] Left = new Side[] { Side.Left };
     }
 
     public static class PopupExtension
@@ -35,7 +36,7 @@ namespace UWPPlayground.Extensions
         /// <returns>
         /// True when popup has been positioned in any of the sides in <paramref name="preferenceOrder"/>. False otherwise.
         /// </returns>
-        public static bool TryShowNear(this Popup popup, FrameworkElement targetElement, Side[] preferenceOrder, double margin = 10)
+        public static bool TryShowNear(this Popup popup, FrameworkElement targetElement, Side[] preferenceOrder, double margin = 10, bool isOverflowAllowed = false)
         {
             try
             {
@@ -73,7 +74,12 @@ namespace UWPPlayground.Extensions
                                                                                        distanceY,
                                                                                        popup.MaxHeight,
                                                                                        targetElement.ActualHeight,
-                                                                                       windowBounds.Height);
+                                                                                       windowBounds.Height,
+                                                                                       isOverflowAllowed);
+                                    if (verticalOffsetForAlignment == null)
+                                    {
+                                        return false;
+                                    }
                                 }
                                 popup.VerticalOffset = verticalOffsetForAlignment.Value;
                                 popup.IsOpen = true;
@@ -93,7 +99,12 @@ namespace UWPPlayground.Extensions
                                                                                        distanceY,
                                                                                        popup.MaxHeight,
                                                                                        targetElement.ActualHeight,
-                                                                                       windowBounds.Height);
+                                                                                       windowBounds.Height,
+                                                                                       isOverflowAllowed);
+                                    if (verticalOffsetForAlignment == null)
+                                    {
+                                        return false;
+                                    }
                                 }
                                 popup.VerticalOffset = verticalOffsetForAlignment.Value;
                                 popup.IsOpen = true;
@@ -115,7 +126,12 @@ namespace UWPPlayground.Extensions
                                                                                          distanceX,
                                                                                          popup.MaxWidth,
                                                                                          targetElement.ActualWidth,
-                                                                                         windowBounds.Width);
+                                                                                         windowBounds.Width,
+                                                                                         isOverflowAllowed);
+                                    if (horizontalOffsetForAlignment == null)
+                                    {
+                                        return false;
+                                    }
                                 }
                                 popup.HorizontalOffset = horizontalOffsetForAlignment.Value;
                                 popup.IsOpen = true;
@@ -135,7 +151,12 @@ namespace UWPPlayground.Extensions
                                                                                          distanceX,
                                                                                          popup.MaxWidth,
                                                                                          targetElement.ActualWidth,
-                                                                                         windowBounds.Width);
+                                                                                         windowBounds.Width,
+                                                                                         isOverflowAllowed);
+                                    if (horizontalOffsetForAlignment == null)
+                                    {
+                                        return false;
+                                    }
                                 }
                                 popup.HorizontalOffset = horizontalOffsetForAlignment.Value;
                                 popup.IsOpen = true;
@@ -161,37 +182,38 @@ namespace UWPPlayground.Extensions
         /// <param name="targetElementDimension"></param>
         /// <param name="windowDimension"></param>
         /// <returns></returns>
-        private static double GetOffsetForAlignment(double popupCoord,
-                                                    double targetElementCoord,
-                                                    double distance,
-                                                    double popupMaxDimension,
-                                                    double targetElementDimension,
-                                                    double windowDimension)
+        private static double? GetOffsetForAlignment(double popupCoord,
+                                                     double targetElementCoord,
+                                                     double distance,
+                                                     double popupMaxDimension,
+                                                     double targetElementDimension,
+                                                     double windowDimension,
+                                                     bool isOverflowAllowed = false)
         {
-            double offsetForAlignment;
             // Calculates the offset needed to align the center of the popup with the center of the target element.
             double offsetForCenterAlignment = distance - (popupMaxDimension - targetElementDimension) / 2;
 
             // If the calculated offset positions the popup within the window boundaries, align the center of the popup with the center of the target element.
-            if (popupCoord + offsetForCenterAlignment >= 0 &&
-                popupCoord + offsetForCenterAlignment + popupMaxDimension <= windowDimension)
+            if (isOverflowAllowed ||
+               (popupCoord + offsetForCenterAlignment >= 0 && popupCoord + offsetForCenterAlignment + popupMaxDimension <= windowDimension))
             {
-                offsetForAlignment = offsetForCenterAlignment;
+                return offsetForCenterAlignment;
             }
             else
             {
-                // If the target element is closer to the left/top side of the window, align the left/top edge of the popup with the left/top edge of the target element.
-                if (targetElementCoord + targetElementDimension / 2 < windowDimension / 2)
+
+                // Check if aligning left/top causes overflow. Assumes left/top of targetElement is within window bounds.
+                if (popupCoord + distance + popupMaxDimension <= windowDimension)
                 {
-                    offsetForAlignment = distance;
+                    return distance;
                 }
-                // If the target element is closer to the right/bottom side of the window, align the right/bottom edge of the popup with the right/bottom edge of the target element.
-                else
+                // Check if aligning right/bottom causes overflow. Assumes right/bottom of targetElement is within window bounds.
+                else if (popupCoord + distance - popupMaxDimension >= 0)
                 {
-                    offsetForAlignment = distance - popupMaxDimension + targetElementDimension;
+                    return distance - popupMaxDimension + targetElementDimension;
                 }
             }
-            return offsetForAlignment;
+            return null;
         }
     }
 }
